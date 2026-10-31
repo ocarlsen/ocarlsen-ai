@@ -149,15 +149,31 @@ choose.</p>
   <li><b>Search.</b> Press <code>/</code> and type: the list narrows to matching threads as you
   type. Press Enter to search all of your Gmail too, archived mail included, with Gmail's own
   operators (<code>from:</code>, <code>before:</code>, <code>has:attachment</code>); matches FrontDesk
-  has not synced are listed below, unranked. Open one to read it in place; Keep in FrontDesk
+  has not synced are listed below, unranked, and, if Slack is connected, so are matching Slack
+  messages (Slack's own search, opening in Slack). Open one to read it in place; Keep in FrontDesk
   brings it in, ranked, under From search, with Ask, reply and every other action, until you
-  archive it or mark it done. Esc brings the inbox back.</li>
+  archive it or mark it done. Move to inbox (on the thread, or for a whole selection) puts an
+  archived one back in Gmail's inbox. Gmail results can be selected like threads, and the bar
+  then archives them, marks them read or unread or stars them right in Gmail without storing
+  them. Moving them to the inbox also brings them into FrontDesk, ranked, however old they are.
+  Each result also has icons under its age, like a thread's, for its own state: mark read or
+  unread, and archive or move to inbox. A Slack match opens in Slack; Keep brings that
+  conversation in, ranked, until you mark it done.
+  Esc brings the inbox back.</li>
   <li><b>Act.</b> Edit the reply (it ends with your own sign-off), then save it as a Gmail draft
   or send it: you see the exact message and recipients, confirm, and have 30 seconds to undo.
   A draft you saved, or started in Gmail, opens in the reply box, read from Gmail each time, and
   saving again updates that draft rather than adding another.
   Archive or mark done with one click, or on a phone with a swipe to the left, with keyboard
-  shortcuts like Gmail's. Move a thread to another section from its menu (<code>v</code>). Star a thread (<code>s</code>) to keep it in the Starred view: on Gmail
+  Gmail's shortcuts: <code>e</code> archives, <code>[</code> and <code>]</code> archive and open
+  the next thread, <code>Shift+I</code> and <code>Shift+U</code> mark read and unread (also from
+  the icons that appear on a row under the pointer), <code>z</code> undoes, <code>a</code> replies
+  to everyone, <code>g</code> then <code>i</code> or <code>s</code> goes to the inbox or Starred,
+  and <code>Shift+N</code> syncs now.
+  Select threads with their checkboxes, <code>x</code>, Shift-click or <code>*</code> then
+  <code>a</code> (on a phone, a long press), then mark them read, archive, star or move them all at
+  once, with one Undo.
+  Move a thread to another section from its menu (<code>v</code>). Star a thread (<code>s</code>) to keep it in the Starred view: on Gmail
   that is Gmail's own star, on Slack a mark kept in FrontDesk only, since Slack offers no way for
   an app to save a message for later.</li>
 </ol>
@@ -196,6 +212,13 @@ single runs are within run-to-run variation. The
 <a href="https://github.com/ocarlsen/frontdesk/blob/main/evals/results/SCOREBOARD.md">full
 report</a>, with confidence intervals, is in the repository.</p>
 
+<p><b>Try to hijack it.</b> All 32 attacks are in a
+<a href="https://frontdesk.ocarlsen.com/hijack.html">gallery on the demo site</a>: each email as
+the attacker wrote it, with the planted instruction highlighted (hidden text included), what it
+wanted, and what each model actually did with it, recorded from a real run. Most attacks fail on
+every model; in these recordings, one forged quoted reply still talks two of them into confirming payment terms the
+owner never agreed to, and the gallery shows that too.</p>
+
 <p>Memory gets its own test: 12 synthetic threads whose answer depends on a note, asked once with
 a note you wrote and once with the same note written by a helper session on your behalf. Without
 authorship labels, every model credited the helper's note to you most of the time. With them,
@@ -233,21 +256,23 @@ server.</p>
 
 <h3>What it reads from Google</h3>
 <p>With the read-only permission, FrontDesk reads the Gmail threads that match a search you set
-(by default, your inbox from the last seven days). When you search all of Gmail from the search
-box, it sends that search to Google and reads the senders, subjects and dates of up to 20 matching
+(by default, your inbox from the last seven days). When you search from the search
+box, it sends that search to Google (and, if you connected Slack, to Slack) and reads the senders, subjects and dates of up to 20 matching
 threads to list them; it does not store them, and no model sees them. Opening a result reads
-that whole thread to show it, still without storing it. Only when you choose Keep in FrontDesk is
-the thread stored like the ones it syncs, sent to your model once to be ranked, and read again on
+that whole thread to show it, still without storing it. Only when you choose Keep in FrontDesk, or
+move a result to your inbox, is the thread stored like the ones it syncs, sent to your model once to be ranked, and read again on
 each sync until you archive it or mark it done. If you grant the separate actions permission,
-it can also archive a thread, move it back to your inbox, create drafts, and send a reply. It
+it can also archive a thread, move it back to your inbox, mark it read or unread, star it, create drafts, and send a reply. It
 sends only when you click Send, see the exact message and its recipients, and confirm; the reply
 then waits 30 seconds, during which you can undo it. It never sends on its own, and the model
 never chooses recipients.</p>
 
 <h3>Slack, if you connect it</h3>
 <p>Slack is optional and uses your own Slack app with your user token. FrontDesk reads your direct
-messages, group messages and the channel threads that mention you or that you replied in, from the
-last seven days. It posts a reply only through the same Send flow: you see the exact message and
+messages, group messages and the channel threads that mention you, that you replied in or that you
+started, from the last seven days, plus direct messages and mentions you have not read yet, from
+up to 90 days back. To know what is unread it reads your read position in each conversation and
+in each thread you follow. It posts a reply only through the same Send flow: you see the exact message and
 where it goes, confirm, and have 30 seconds to undo. The token stays on your computer.</p>
 
 <h3>Unanswered email, if you set it up</h3>
