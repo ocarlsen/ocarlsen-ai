@@ -99,7 +99,12 @@ choose.</p>
 </p>
 
 <p class="price">Free and open source. You pay your model provider directly: on my own inbox, about
-1.5&cent; per ranked thread and 3&cent; per Ask with Claude Opus 5.5.</p>
+1.5&cent; per ranked thread and 3&cent; per Ask with Claude Opus 5.5. What a ranking reads
+from memory has a fixed size, so that cost stays bounded as memory grows.</p>
+
+<p>To run it on your own mail you need a Google Cloud project for Gmail, a key from Anthropic,
+OpenAI or Google, and, if you want Slack, a Slack app made from the included manifest:
+<a href="https://github.com/ocarlsen/frontdesk#set-it-up-on-your-own-mail">setup steps</a>.</p>
 
 <ul class="facts">
   <li><b>Local-first</b><span>No server, no account, no analytics. Your mail stays on your machine.</span></li>
@@ -130,8 +135,8 @@ choose.</p>
   behind every link. If you connect Slack, your direct and group messages, and channel threads
   that mention you or that you replied in, come in the same way.</li>
   <li><b>Triage.</b> Each thread goes to the model as quoted data it cannot break out of, and
-  comes back in a fixed format that the code validates again. Every ranking records its model,
-  prompt version, tokens and cost.</li>
+  comes back in a fixed format that the code validates again. The model also reads your profile
+  and your "What's going on" list, so a ranking can weigh what you are waiting on. Every ranking records its model, prompt version, tokens and cost.</li>
   <li><b>Ask.</b> Open any thread and ask what to do. The box already holds FrontDesk's own
   question ("What do you think?"), so one click on Ask gets advice; edit it to ask anything else.
   FrontDesk answers with the thread, your other threads with the same people, your profile and
@@ -142,7 +147,8 @@ choose.</p>
   whichever one they write from. Each open thread shows its people under the subject, one tap
   to read or edit their note, and Ask suggests additions you save with a click. Every
   memory records who wrote it and when, and anything you did not write yourself is marked
-  unconfirmed, to you and to the model. Someone becomes a person in Memory only when a note is
+  unconfirmed, to you and to the model. A session you run can keep "What's going on" current:
+  it restates its open items, and what closed drops out. Someone becomes a person in Memory only when a note is
   saved on them, by you or a session you run; reading mail and Slack never adds anyone. The
   Memory page shows everything FrontDesk remembers in
   one place: edit, confirm, delete or merge people there, or download it all.</li>
@@ -175,7 +181,8 @@ choose.</p>
   once, with one Undo.
   Move a thread to another section from its menu (<code>v</code>). Star a thread (<code>s</code>) to keep it in the Starred view: on Gmail
   that is Gmail's own star, on Slack a mark kept in FrontDesk only, since Slack offers no way for
-  an app to save a message for later.</li>
+  an app to save a message for later. The Unread view, beside Starred (<code>g</code> then
+  <code>u</code>), lists every unread thread from Gmail and Slack in one place.</li>
 </ol>
 
 <figure>
@@ -271,8 +278,10 @@ never chooses recipients.</p>
 <p>Slack is optional and uses your own Slack app with your user token. FrontDesk reads your direct
 messages, group messages and the channel threads that mention you, that you replied in or that you
 started, from the last seven days, plus direct messages and mentions you have not read yet, from
-up to 90 days back. To know what is unread it reads your read position in each conversation and
-in each thread you follow. It posts a reply only through the same Send flow: you see the exact message and
+up to 90 days back. If you turn on one setting (for a workspace that is yours, where agents or
+bots post to you), it reads every message in the channels you are in instead. To know what is unread it reads your read position in each conversation and
+in each thread you follow. When you read or finish messages in FrontDesk, it moves that read
+position forward in Slack too, never past a message you have not seen there. It posts a reply only through the same Send flow: you see the exact message and
 where it goes, confirm, and have 30 seconds to undo. The token stays on your computer.</p>
 
 <h3>Unanswered email, if you set it up</h3>
@@ -288,8 +297,8 @@ what you tell it (your profile, the people you keep notes on with their addresse
 type for them, your "What's going on" list and your Ask conversations) on your computer, in a folder only your user account can read. It sends data to these places only: to
 Google, to read your mail and, if you allow it, to archive threads, save drafts and send replies;
 to Slack, if you connect it, to read your conversations and post replies you confirm; and to the AI
-model provider you configure, which receives the text of each thread so it can rank it and
-suggest a reply. For HTML mail that text includes where its links point, but not its markup,
+model provider you configure, which receives the text of each thread, with your profile and
+your "What's going on" list, so it can rank it and suggest a reply. For HTML mail that text includes where its links point, but not its markup,
 images or attachments. When you use Ask, the provider also receives your profile, your "What's
 going on" list, your notes on the people in that thread (with their addresses and any name you
 typed), your other threads with them, and the
